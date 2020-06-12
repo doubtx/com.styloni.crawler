@@ -6,15 +6,19 @@ const { utils: { log } } = Apify;
 const { getHandler } = require('./handlers')
 
 Apify.main(async () => {
-    const { startUrls } = await Apify.getInput();
+    const { startUrls, proxyEndpoint } = await Apify.getInput();
     const requestList = await Apify.openRequestList('start-urls', startUrls);
     const requestQueue = await Apify.openRequestQueue();
 
-    let proxyEndpointRes = await axios.get('http://104.248.130.120:8080/proxies')
+    // let proxyEndpointRes = await axios.get(proxyEndpoint)
+    // let proxyConfiguration = await Apify.createProxyConfiguration({
+    //     proxyUrls: proxyEndpointRes.data.map(p => {
+    //         return 'http://' + p.proxy_host
+    //     })
+    // });
+
     let proxyConfiguration = await Apify.createProxyConfiguration({
-        proxyUrls: proxyEndpointRes.data.map(p => {
-            return 'http://' + p.proxy_host
-        })
+        groups: ['BUYPROXIES94952']
     });
 
     const crawler = new Apify.CheerioCrawler({

@@ -9,7 +9,7 @@
       "type": "array",
       "description": "URLs to start with.",
       "editor": "json",
-      "prefill": [ 
+      "prefill": [
         {
           "url": "https://www.example.com/category/15",
           "userData": { "handlerType": "handleStart", "storeName": "exampleStore" }
