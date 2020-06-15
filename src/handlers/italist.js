@@ -31,7 +31,7 @@ exports.handleProducts = async ({ request, $, body }, requestQueue) => {
 exports.handleParse = async ({ request, $, body }, requestQueue) => {
     let jsonData = JSON.parse($('#__NEXT_DATA__').html())
     await Apify.pushData({
-        url: 'https://www.italist.com/us' + request.url,
+        url: request.url,
         store: request.userData.storeName,
         brand: jsonData.props.initialState.api.product.brand,
         title: jsonData.props.initialState.api.product.model,
