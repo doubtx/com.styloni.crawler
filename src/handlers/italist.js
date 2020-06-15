@@ -32,7 +32,6 @@ exports.handleParse = async ({ request, $, body }, requestQueue) => {
     let jsonData = JSON.parse($('#__NEXT_DATA__').html())
     await Apify.pushData({
         url: request.url,
-        store: request.userData.storeName,
         brand: jsonData.props.initialState.api.product.brand,
         title: jsonData.props.initialState.api.product.model,
         description: jsonData.props.initialState.api.product.description,
