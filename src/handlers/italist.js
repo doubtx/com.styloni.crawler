@@ -30,8 +30,9 @@ exports.handleProducts = async ({ request, $, body }, requestQueue) => {
 
 exports.handleParse = async ({ request, $, body }, requestQueue) => {
     let jsonData = JSON.parse($('#__NEXT_DATA__').html())
-    await Apify.pushData({
+    let productDetails = {
         url: request.url,
+        store: request.userData.storeName,
         brand: jsonData.props.initialState.api.product.brand,
         title: jsonData.props.initialState.api.product.model,
         description: jsonData.props.initialState.api.product.description,
@@ -40,6 +41,14 @@ exports.handleParse = async ({ request, $, body }, requestQueue) => {
         category2: null,
         images: jsonData.props.initialState.api.product.images.map(i => i.zoom),
         price: parseFloat(jsonData.props.initialState.api.product.rrp),
-        original_price: parseFloat(jsonData.props.initialState.api.product.rrp_not_reduced)
-    })
+    }
+
+    if (jsonData.props.initialState.api.product.rrp_not_reduced) {
+        productDetails.original_price = parseFloat(jsonData.props.initialState.api.product.rrp_not_reduced)
+    } else {
+        productDetails.original_price = parseFloat(jsonData.props.initialState.api.product.rrp)
+    }
+
+
+    await Apify.pushData(productDetails)
 };
