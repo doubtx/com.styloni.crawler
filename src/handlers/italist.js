@@ -33,14 +33,14 @@ exports.handleParse = async ({ request, $, body }, requestQueue) => {
     await Apify.pushData({
         url: 'https://www.italist.com/us' + request.url,
         store: request.userData.storeName,
-        brand: jsonData.api.product.brand,
-        title: jsonData.api.product.model,
-        description: jsonData.api.product.description,
-        color: jsonData.api.product.color,
-        category1: jsonData.api.product.category,
+        brand: jsonData.props.initialState.api.product.brand,
+        title: jsonData.props.initialState.api.product.model,
+        description: jsonData.props.initialState.api.product.description,
+        color: jsonData.props.initialState.api.product.color,
+        category1: jsonData.props.initialState.api.product.category,
         category2: null,
-        images: jsonData.api.product.images.map(i => i.zoom),
-        price: parseFloat(jsonData.api.product.rrp),
+        images: jsonData.props.initialState.api.product.images.map(i => i.zoom),
+        price: parseFloat(jsonData.props.initialState.api.product.rrp),
         original_price: parseFloat(jsonData.api.product.rrp_not_reduced)
     })
 };

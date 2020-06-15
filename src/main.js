@@ -26,8 +26,9 @@ Apify.main(async () => {
             maxPoolSize: 50
         },
         persistCookiesPerSession: true,
-        maxConcurrency: 50,
-        minConcurrency: 50,
+        maxConcurrency: 100,
+        minConcurrency: 100,
+        requestTimeoutSecs: 120,
         additionalMimeTypes: [ 'application/json' ],
         handlePageFunction: async (context) => {
             const { url, userData: { storeName, handlerType } } = context.request;
