@@ -1,24 +1,20 @@
 
 const Apify = require('apify');
-const axios = require('axios');
 const { utils: { log } } = Apify;
-
 const { getHandler } = require('./handlers')
 
+const proxyMiddleware = process.env.PROXY_MIDDLEWARE
+const proxyAccessToken = process.env.PROXY_ACCESS_TOKEN
+
 Apify.main(async () => {
-    const { startUrls, proxyEndpoint } = await Apify.getInput();
+    const { startUrls } = await Apify.getInput();
     const requestList = await Apify.openRequestList('start-urls', startUrls);
     const requestQueue = await Apify.openRequestQueue();
 
-    // let proxyEndpointRes = await axios.get(proxyEndpoint)
-    // let proxyConfiguration = await Apify.createProxyConfiguration({
-    //     proxyUrls: proxyEndpointRes.data.map(p => {
-    //         return 'http://' + p.proxy_host
-    //     })
-    // });
-
     let proxyConfiguration = await Apify.createProxyConfiguration({
-        groups: ['BUYPROXIES94952']
+        newUrlFunction: function(sessionId) {
+            return `socks5://${sessionId}:${proxyAccessToken}@${proxyMiddleware}`
+        }
     });
 
     const crawler = new Apify.CheerioCrawler({
@@ -26,8 +22,12 @@ Apify.main(async () => {
         requestQueue,
         proxyConfiguration,
         useSessionPool: true,
+        sessionPoolOptions: {
+            maxPoolSize: 50
+        },
         persistCookiesPerSession: true,
         maxConcurrency: 50,
+        minConcurrency: 50,
         additionalMimeTypes: [ 'application/json' ],
         handlePageFunction: async (context) => {
             const { url, userData: { storeName, handlerType } } = context.request;

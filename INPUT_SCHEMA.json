@@ -15,18 +15,9 @@
           "userData": { "handlerType": "handleStart", "storeName": "exampleStore" }
         }
       ]
-    },
-    "proxyEndpoint": {
-      "title": "Proxy Endpoint URL",
-      "type": "string",
-      "description": "Proxy Endpoint URL to get proxies from",
-      "editor": "textfield",
-      "prefill": "https://server.com/proxies",
-      "pattern": "http[s]?://.*"
     }
   },
   "required": [
-    "startUrls",
-    "proxyEndpoint"
+    "startUrls"
   ]
 }

@@ -19,14 +19,28 @@ exports.handleStart = async ({ request, $ }, requestQueue) => {
 
 exports.handleProducts = async ({ request, $, body }, requestQueue) => {
     let jsonData = JSON.parse($('#__NEXT_DATA__').html())
-    await Apify.pushData(jsonData.props.initialState.api.products.map(p => ({
-        url: 'https://www.italist.com/us/' + p.url,
+
+    for (let product in jsonData.props.initialState.api.products) {
+        await requestQueue.addRequest({
+            url: 'https://www.italist.com/us/' + product.url,
+            userData: { handlerType: 'handleParse', storeName: 'italist' }
+        })
+    }
+};
+
+exports.handleParse = async ({ request, $, body }, requestQueue) => {
+    let jsonData = JSON.parse($('#__NEXT_DATA__').html())
+    await Apify.pushData({
+        url: 'https://www.italist.com/us' + request.url,
         store: request.userData.storeName,
-        brand: p.brand,
-        title: p.model,
-        description: p.description,
-        images: p.images,
-        price: parseFloat(p.rrp),
-        original_price: parseFloat(p.rrp_not_reduced)
-    })))
+        brand: jsonData.api.product.brand,
+        title: jsonData.api.product.model,
+        description: jsonData.api.product.description,
+        color: jsonData.api.product.color,
+        category1: jsonData.api.product.category,
+        category2: null,
+        images: jsonData.api.product.images.map(i => i.zoom),
+        price: parseFloat(jsonData.api.product.rrp),
+        original_price: parseFloat(jsonData.api.product.rrp_not_reduced)
+    })
 };

@@ -2,6 +2,9 @@
 	"name": "com-styloni-crawler",
 	"version": "0.0",
 	"buildTag": "latest",
-	"env": null,
+	"env": {
+		"PROXY_ACCESS_TOKEN": "@proxyAccessToken",
+		"PROXY_MIDDLEWARE": "104.248.242.93:1080"
+	},
 	"template": "project_cheerio_crawler"
 }
