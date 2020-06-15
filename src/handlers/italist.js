@@ -20,9 +20,9 @@ exports.handleStart = async ({ request, $ }, requestQueue) => {
 exports.handleProducts = async ({ request, $, body }, requestQueue) => {
     let jsonData = JSON.parse($('#__NEXT_DATA__').html())
 
-    for (let product in jsonData.props.initialState.api.products) {
+    for (let i = 0; i < jsonData.props.initialState.api.products.length; i++) {
         await requestQueue.addRequest({
-            url: 'https://www.italist.com/us/' + product.url,
+            url: 'https://www.italist.com/us/' + jsonData.props.initialState.api.products[i].url,
             userData: { handlerType: 'handleParse', storeName: 'italist' }
         })
     }
