@@ -40,6 +40,6 @@ exports.handleParse = async ({ request, $, body }, requestQueue) => {
         category2: null,
         images: jsonData.props.initialState.api.product.images.map(i => i.zoom),
         price: parseFloat(jsonData.props.initialState.api.product.rrp),
-        original_price: parseFloat(jsonData.api.product.rrp_not_reduced)
+        original_price: parseFloat(jsonData.props.initialState.api.product.rrp_not_reduced)
     })
 };
