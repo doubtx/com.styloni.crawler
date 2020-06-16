@@ -33,6 +33,8 @@ exports.handleParse = async ({ request, $, body }, requestQueue) => {
 
     let productDetails = {
         url: request.url,
+        crawl_page_id: request.id,
+        crawl_time: Date.now(),
         store: request.userData.storeName,
         brand: initState.productViewModel.designerDetails.name,
         title: initState.productViewModel.details.shortDescription,

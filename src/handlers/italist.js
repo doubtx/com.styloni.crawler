@@ -32,6 +32,8 @@ exports.handleParse = async ({ request, $, body }, requestQueue) => {
     let jsonData = JSON.parse($('#__NEXT_DATA__').html())
     let productDetails = {
         url: request.url,
+        crawl_page_id: request.id,
+        crawl_time: Date.now(),
         store: request.userData.storeName,
         brand: jsonData.props.initialState.api.product.brand,
         title: jsonData.props.initialState.api.product.model,
