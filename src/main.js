@@ -22,11 +22,11 @@ Apify.main(async () => {
         proxyConfiguration,
         useSessionPool: true,
         sessionPoolOptions: {
-            maxPoolSize: 1
+            maxPoolSize: 100
         },
         persistCookiesPerSession: true,
-        maxConcurrency: 1,
-        minConcurrency: 1,
+        maxConcurrency: 100,
+        minConcurrency: 100,
         requestTimeoutSecs: 120,
         additionalMimeTypes: [ 'application/json' ],
         prepareRequestFunction: async (input) => {
