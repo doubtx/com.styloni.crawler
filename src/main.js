@@ -20,7 +20,7 @@ Apify.main(async () => {
     const crawler = new Apify.CheerioCrawler({
         requestList,
         requestQueue,
-        // proxyConfiguration,
+        proxyConfiguration,
         useSessionPool: true,
         sessionPoolOptions: {
             maxPoolSize: 100
