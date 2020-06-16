@@ -15,12 +15,6 @@
           "userData": { "handlerType": "handleStart", "storeName": "exampleStore" }
         }
       ]
-    },
-    "defaultCookies": {
-      "title": "Cookies to set",
-      "type": "object",
-      "description": "Cookies to set on each request",
-      "editor": "json"
     }
   },
   "required": [
