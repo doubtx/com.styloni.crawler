@@ -26,7 +26,7 @@ Apify.main(async () => {
         },
         persistCookiesPerSession: true,
         maxConcurrency: 100,
-        minConcurrency: 100,
+        minConcurrency: 25,
         requestTimeoutSecs: 120,
         additionalMimeTypes: [ 'application/json' ],
         prepareRequestFunction: async (input) => {
