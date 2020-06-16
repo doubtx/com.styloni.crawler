@@ -10,7 +10,6 @@ Apify.main(async () => {
     const { startUrls } = await Apify.getInput();
     const requestList = await Apify.openRequestList('start-urls', startUrls);
     const requestQueue = await Apify.openRequestQueue();
-
     let proxyConfiguration = await Apify.createProxyConfiguration({
         newUrlFunction: function(sessionId) {
             return `socks5://${sessionId}:${proxyAccessToken}@${proxyMiddleware}`
@@ -23,13 +22,21 @@ Apify.main(async () => {
         proxyConfiguration,
         useSessionPool: true,
         sessionPoolOptions: {
-            maxPoolSize: 100
+            maxPoolSize: 1
         },
         persistCookiesPerSession: true,
-        maxConcurrency: 100,
-        minConcurrency: 100,
+        maxConcurrency: 1,
+        minConcurrency: 1,
         requestTimeoutSecs: 120,
         additionalMimeTypes: [ 'application/json' ],
+        prepareRequestFunction: async (input) => {
+            let defaultCookies = input.request.userData.defaultCookies
+            if (defaultCookies) {
+                for (let i = 0; i < defaultCookies.length; i++) {
+                    input.session.setPuppeteerCookies(defaultCookies[i].cookies, input.request.url)
+                }
+            }
+        },
         handlePageFunction: async (context) => {
             const { url, userData: { storeName, handlerType } } = context.request;
             log.info('Page opened.', { storeName, handlerType, url });
