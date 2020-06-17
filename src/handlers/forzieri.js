@@ -51,7 +51,11 @@ exports.handleParse = async ({ request, $, body }, requestQueue) => {
     if ($('#salePrice').text() === '') {
         productDetails.price = productDetails.original_price
     } else {
-        productDetails.price = parseFloat($('#salePrice').text().replace('$', ''))
+        productDetails.price = parseFloat($('#salePrice').text().replace('$', '').replace(',', ''))
+    }
+
+    if (productDetails.title === "" || !productDetails.price || productDetails.images.length === 0) {
+        productDetails.debug_html = $.html()
     }
 
     await Apify.pushData(productDetails)

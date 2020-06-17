@@ -51,6 +51,9 @@ exports.handleParse = async ({ request, $, body }, requestQueue) => {
         productDetails.original_price = parseFloat(jsonData.props.initialState.api.product.rrp)
     }
 
+    if (productDetails.title === "" || !productDetails.price || productDetails.images.length === 0) {
+        productDetails.debug_html = $.html()
+    }
 
     await Apify.pushData(productDetails)
 };

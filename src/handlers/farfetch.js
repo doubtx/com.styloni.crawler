@@ -43,8 +43,12 @@ exports.handleParse = async ({ request, $, body }, requestQueue) => {
         category1: initState.productViewModel.categories.subCategory.name,
         category2: null,
         images: initState.productViewModel.images.main.map(i => i.zoom),
-        price: parseFloat(initState.productViewModel.priceInfo.default.finalPrice),
-        original_price: parseFloat(initState.productViewModel.priceInfo.default.initialPrice)
+        price: parseFloat(initState.productViewModel.priceInfo.default.finalPrice.replace(',', '')),
+        original_price: parseFloat(initState.productViewModel.priceInfo.default.initialPrice.replace(',', ''))
+    }
+
+    if (productDetails.title === "" || !productDetails.price || productDetails.images.length === 0) {
+        productDetails.debug_html = $.html()
     }
 
     await Apify.pushData(productDetails)
