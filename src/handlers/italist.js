@@ -52,7 +52,8 @@ exports.handleParse = async ({ request, $, body }, requestQueue) => {
     }
 
     if (productDetails.title === "" || !productDetails.price || productDetails.images.length === 0) {
-        productDetails.debug_html = $.html()
+        request.retryCount++
+        await requestQueue.addRequest(request)
     }
 
     await Apify.pushData(productDetails)
