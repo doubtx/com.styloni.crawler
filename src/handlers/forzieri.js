@@ -40,7 +40,7 @@ exports.handleParse = async ({ request, $, body }, requestQueue) => {
         category1: null,
         category2: null,
         images: [],
-        original_price: parseFloat($('#listPrice').text().replace('$', ''))
+        original_price: parseFloat($('#listPrice').text().replace('$', '').replace(',', ''))
     }
 
     let imagesElements = $('.product-image-wrap img')
@@ -57,7 +57,7 @@ exports.handleParse = async ({ request, $, body }, requestQueue) => {
     if (productDetails.title === "" || !productDetails.price || productDetails.images.length === 0) {
         request.retryCount++
         await requestQueue.addRequest(request)
+    } else {
+        await Apify.pushData(productDetails)
     }
-
-    await Apify.pushData(productDetails)
 };
